@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
@@ -77,6 +76,11 @@ namespace DuplicateDetector
             cancelButton.Enabled = false;
         }
 
+        private double GetElapsedSeconds(DateTime start)
+        {
+            return (DateTime.UtcNow - start).TotalSeconds;
+        }
+
         private void DetectDuplicates(string directory, BackgroundWorker worker, DoWorkEventArgs e)
         {
             try
@@ -95,7 +99,7 @@ namespace DuplicateDetector
                         OutputFile(file, "(duplicate)");
                     }
 
-                    if (Utility.GetElapsedSeconds(_lastLog) > _logInterval)
+                    if (GetElapsedSeconds(_lastLog) > _logInterval)
                     {
                         OutputText($"Scanning ({_database.TotalCount} files)...");
                         _lastLog = DateTime.UtcNow;
@@ -127,6 +131,7 @@ namespace DuplicateDetector
                 Invoke(new Action<string>(OutputText), new object[] { text });
                 return;
             }
+
             outputTextBox.AppendText($"{text}{Environment.NewLine}");
         }
 
@@ -151,7 +156,7 @@ namespace DuplicateDetector
             else
             {
                 OutputText("-------------------------------------------------------------------");
-                OutputText($"{_database.TotalCount} ({Utility.FormatBytes(_database.TotalBytes)}) total files, {_database.DuplicateCount} duplicates ({Utility.FormatBytes(_database.DuplicateBytes)})");
+                OutputText($"{_database.TotalCount} total files ({FileUtility.FormatBytes(_database.TotalBytes)}), {_database.DuplicateCount} duplicates ({FileUtility.FormatBytes(_database.DuplicateBytes)})");
             }
 
             EnableControls(true);

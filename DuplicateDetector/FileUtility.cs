@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace DuplicateDetector
 {
-    public class Utility
+    public class FileUtility
     {
         public static string GetFileMD5(string file)
         {
@@ -20,11 +20,6 @@ namespace DuplicateDetector
         public static long GetFileLength(string file)
         {
             return new FileInfo(file).Length;
-        }
-
-        public static double GetElapsedSeconds(DateTime start)
-        {
-            return (DateTime.UtcNow - start).TotalSeconds;
         }
 
         public static string FormatBytes(long bytes)
