@@ -24,30 +24,30 @@ namespace DuplicateDetector
 
         public static string FormatBytes(long bytes)
         {
-            long kbytes = bytes / 1024;
-            long mbytes = kbytes / 1024;
-            long gbytes = mbytes / 1024;
-            long tbytes = gbytes / 1024;
+            double kbytes = bytes / 1024f;
+            double mbytes = kbytes / 1024f;
+            double gbytes = mbytes / 1024f;
+            double tbytes = gbytes / 1024f;
 
-            if (kbytes == 0)
+            if (kbytes < 1)
             {
                 return $"{bytes} bytes";
             }
-            else if (mbytes == 0)
+            else if (mbytes < 1)
             {
-                return $"{kbytes} KB";
+                return $"{kbytes:0.##} KB";
             }
-            else if (gbytes == 0)
+            else if (gbytes < 1)
             {
-                return $"{mbytes} MB";
+                return $"{mbytes:0.##} MB";
             }
-            else if (tbytes == 0)
+            else if (tbytes < 1)
             {
-                return $"{gbytes} GB";
+                return $"{gbytes:0.##} GB";
             }
             else
             {
-                return $"{tbytes} TB";
+                return $"{tbytes:0.##} TB";
             }
         }
     }
